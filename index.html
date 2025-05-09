@@ -281,6 +281,61 @@
                 transform: scale(1);
             }
         }
+
+        .creator-button-circle {
+    width: 59px; /* Размер кнопки */
+    height: 59px; /* Размер кнопки */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    border: 2px solid #008cff; /* Синяя обводка */
+    border-radius: 50%; /* Округление кнопки */
+    cursor: pointer;
+    text-decoration: none;
+    overflow: hidden; /* Избегаем выхода изображения за границы */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.creator-button-circle:hover {
+    background-color: rgba(0, 140, 255, 0.1); /* Легкая заливка при наведении */
+    transform: scale(1.1); /* Эффект увеличения при наведении */
+}
+
+.creator-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Масштабирование изображения внутри кнопки */
+}
+
+.new-features-section {
+    margin: 30px auto;
+    width: 90%;
+    max-width: 500px;
+}
+
+.new-features-background {
+    background-color: #2a3b4c; /* Цвет фона */
+    padding: 20px;
+    border-radius: 12px; /* Закругленные углы */
+}
+
+.new-features-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 15px;
+    text-align: left; /* Выравнивание заголовка слева */
+}
+
+.new-features-content p {
+    font-size: 18px;
+    line-height: 1.6;
+    font-weight: normal;
+    color: rgba(255, 255, 255, 0.75); /* Прозрачность текста 75% */
+    margin: 8px 0;
+    text-align: left; /* Выравнивание текста слева */
+}
     </style>
 </head>
 <body>
@@ -296,8 +351,8 @@
             <img src="ton_blue.PNG" alt="TON Logo">
             <div class="ton-text">TON</div>
         </a>
-        <a href="#" class="creator-button" onclick="showNotification(); return false;">
-            <div class="creator-text">Создатель</div>
+        <a href="#" class="creator-button-circle" onclick="showNotification(); return false;" title="Создатель сайта">
+            <img src="billie.png" alt="Creator Image" class="creator-image">
         </a>
     </header>
 
@@ -342,8 +397,14 @@
         </div>
     </div>
 
-    <div class="future-features fade-in">
-        В будущем появится<br>больше возможностей...
+    <div class="new-features-section fade-in">
+        <div class="new-features-background">
+            <div class="new-features-title">Что нового:</div>
+            <div class="new-features-content">
+                <p>• Возможность конвертировать Звезды (Telegram Stars) в TON</p>
+                <p>• В разработке: График курса TON с выбором разных периодов и больше интеграции с системой TON</p>
+            </div>
+        </div>
     </div>
 
     <div class="overlay" id="overlay">
