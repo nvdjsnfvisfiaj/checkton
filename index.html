@@ -336,6 +336,36 @@
     margin: 8px 0;
     text-align: left; /* Выравнивание текста слева */
 }
+
+.gift-button {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    background-color: transparent;
+    border: 2px solid #008cff; /* Синяя обводка, как у кнопки TON */
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    margin-right: 15px; /* Расстояние между кнопками */
+}
+
+.gift-button:hover {
+    background-color: rgba(0, 140, 255, 0.1); /* Легкая голубая заливка при наведении */
+}
+
+.gift-button img {
+    width: 24px;
+    height: 24px;
+    margin-right: 5px; /* Расстояние между изображением и текстом */
+}
+
+.gift-text {
+    font-size: 20px;
+    font-weight: bold;
+    color: #008cff; /* Голубой текст, как у кнопки TON */
+}
+
     </style>
 </head>
 <body>
@@ -350,6 +380,10 @@
         <a href="#" class="ton-button" onclick="return false;">
             <img src="ton_blue.PNG" alt="TON Logo">
             <div class="ton-text">TON</div>
+        </a>
+        <a href="gifts.html" class="gift-button">
+            <img src="gift_blue.PNG" alt="Gift Logo">
+            <div class="gift-text">Gifts</div>
         </a>
         <a href="#" class="creator-button-circle" onclick="showNotification(); return false;" title="Создатель сайта">
             <img src="billie.png" alt="Creator Image" class="creator-image">

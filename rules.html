@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📜 Rules @TGGiftsChat</title>
+    <link rel="icon" href="logo.png" type="image/x-icon">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #1f2a36;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #1f2a36;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader {
+            width: 80px;
+            height: 80px;
+            border: 8px solid transparent;
+            border-top: 8px solid #4facfe;
+            border-left: 8px solid #4facfe;
+            border-radius: 50%;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 20px;
+            background-color: #1f2a36;
+            border-bottom: 1px solid #2d3b48;
+        }
+
+        .logo {
+            width: 64px;
+            height: 64px;
+            margin-right: 20px;
+            cursor: pointer;
+        }
+
+        .ton-button {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            background-color: transparent;
+            border: 2px solid #008cff;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            margin-right: 15px;
+        }
+
+        .ton-button:hover {
+            background-color: rgba(0, 140, 255, 0.1);
+        }
+
+        .ton-button img {
+            width: 24px;
+            height: 24px;
+            margin-right: 5px;
+        }
+
+        .ton-text {
+            font-size: 20px;
+            font-weight: bold;
+            color: #008cff;
+        }
+
+        .gift-button {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            background-color: transparent;
+            border: 2px solid #008cff;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            margin-right: 15px;
+        }
+
+        .gift-button:hover {
+            background-color: rgba(0, 140, 255, 0.1);
+        }
+
+        .gift-button img {
+            width: 24px;
+            height: 24px;
+            margin-right: 5px;
+        }
+
+        .gift-text {
+            font-size: 20px;
+            font-weight: bold;
+            color: #008cff;
+        }
+
+        .creator-button-circle {
+            width: 59px;
+            height: 59px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: transparent;
+            border: 2px solid #008cff;
+            border-radius: 50%;
+            cursor: pointer;
+            text-decoration: none;
+            overflow: hidden;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .creator-button-circle:hover {
+            background-color: rgba(0, 140, 255, 0.1);
+            transform: scale(1.1);
+        }
+
+        .creator-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .main-heading {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 32px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .rules-container {
+            margin: 20px auto;
+            max-width: 700px;
+            font-size: 18px;
+            line-height: 1.6;
+            color: white;
+            text-align: left;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .overlay.active {
+            display: flex;
+        }
+
+        .overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .notification {
+            background: linear-gradient(135deg, #1e3a5f, #27496d);
+            border-radius: 12px;
+            padding: 15px;
+            max-width: 350px;
+            text-align: center;
+            color: white;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .notification p {
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .notification a {
+            color: yellow;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .notification .close-btn {
+            padding: 8px 15px;
+            background-color: white;
+            color: #1f2a36;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .notification .close-btn:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-screen" id="loading-screen">
+        <div class="loader"></div>
+    </div>
+
+    <header class="fade-in">
+        <a href="index.html">
+            <img src="dog.gif" alt="Logo" class="logo">
+        </a>
+        <a href="index.html" class="ton-button">
+            <img src="ton_blue.PNG" alt="TON Logo">
+            <div class="ton-text">TON</div>
+        </a>
+        <a href="gifts.html" class="gift-button">
+            <img src="gift_blue.PNG" alt="Gift Logo">
+            <div class="gift-text">Gifts</div>
+        </a>
+        <a href="#" class="creator-button-circle" onclick="showNotification(); return false;" title="Создатель сайта">
+            <img src="billie.png" alt="Creator Image" class="creator-image">
+        </a>
+    </header>
+
+    <h1 class="main-heading fade-in">Правила</h1>
+    <div class="rules-container fade-in">
+        В чате запрещено: попрошайничество, реклама, неуважительное отношение к участникам, рассылки, контент 18+, слив личной информации других людей, реферальные ссылки, проведение конкурсов на звезды и прочее.<br><br>
+        Наказание варьируется в зависимости от нарушения - от варна (предупреждение) вплоть до бана навсегда.<br><br>
+        Владелец чата - <a href="https://t.me/asteroalex" target="_blank" style="color: #4facfe; text-decoration: none;">@AsteroAlex</a>
+    </div>
+
+    <div class="overlay" id="overlay">
+        <div class="notification">
+            <p>Создатель сайта - <a href="https://t.me/asteroalex" target="_blank">@AsteroAlex</a><br>
+            Если у вас есть какие-либо идеи для улучшения сайта, буду рад их видеть у себя в личке!</p>
+            <button class="close-btn" onclick="hideNotification()">Закрыть</button>
+        </div>
+    </div>
+
+    <script>
+        function showNotification() {
+            const overlay = document.getElementById('overlay');
+            overlay.classList.add('active');
+            overlay.classList.remove('hidden');
+        }
+
+        function hideNotification() {
+            const overlay = document.getElementById('overlay');
+            overlay.classList.add('hidden');
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 300);
+        }
+
+        function showElements() {
+            const elements = document.querySelectorAll('.fade-in');
+            elements.forEach((element) => {
+                element.classList.add('visible');
+            });
+        }
+
+        function hideLoadingScreen() {
+            const loadingScreen = document.getElementById('loading-screen');
+            loadingScreen.classList.add('hidden');
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+            }, 1000);
+        }
+
+        window.onload = () => {
+            setTimeout(() => {
+                hideLoadingScreen();
+                showElements();
+            }, 100);
+        };
+    </script>
+</body>
+</html>
