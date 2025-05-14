@@ -181,6 +181,51 @@
             text-align: left;
         }
 
+        .divider {
+            margin: 40px auto 20px;
+            width: 90%;
+            border-bottom: 1px solid #2d3b48;
+        }
+
+        .footer-text {
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            color: white;
+            margin-top: 10px;
+        }
+
+        .telegram-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 12px;
+            background-color: transparent;
+            border: 2px solid #008cff;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            margin: 10px auto;
+            transition: background-color 0.3s ease;
+            width: fit-content;
+        }
+
+        .telegram-button:hover {
+            background-color: rgba(0, 140, 255, 0.1);
+        }
+
+        .telegram-button img {
+            width: 32px; /* Increased size */
+            height: 32px; /* Increased size */
+            margin-right: 5px;
+        }
+
+        .telegram-text {
+            font-size: 20px;
+            font-weight: bold;
+            color: white; /* Changed text color to white */
+        }
+
         .overlay {
             position: fixed;
             top: 0;
@@ -266,11 +311,24 @@
 
     <h1 class="main-heading fade-in">Правила</h1>
     <div class="rules-container fade-in">
-        В чате запрещено: попрошайничество, реклама, неуважительное отношение к участникам, рассылки, контент 18+, слив личной информации других людей, реферальные ссылки, проведение конкурсов на звезды и прочее, а так же мини-игры по типу 🏀⚽🎳🎲🎯🎰.<br><br>
-        Наказание варьируется в зависимости от нарушения - от варна (предупреждение) вплоть до бана навсегда.<br>
-        Модерация в праве выдать наказание на свое усмотрение, даже если вы ничего не нарушили из выше перечисленного.<br><br>
+        В чате запрещено: <br>
+        · Попрошайничество<br>
+        · Неуважительное отношение к участникам (оскорбления и т.п.)<br>
+        · Общение на политические темы<br>
+        · Оскорбления и унижения за расу/цвет кожи/нацию и т.п.<br>
+        · Рассылки и реклама<br>
+        · Контент 18+ и слив личной информации других людей<br>
+        · Реферальные ссылки и проведение конкурсов на звезды и т.п.<br>
+        · Мини-игры Telegram по типу 🏀⚽🎳🎲🎯🎰<br><br>
+        Наказание варьируется в зависимости от нарушения - от варна (предупреждение) вплоть до бана<br><br>
         Владелец чата - <a href="https://t.me/asteroalex" target="_blank" style="color: #4facfe; text-decoration: none;">@AsteroAlex</a>
     </div>
+    <div class="divider"></div>
+    <div class="footer-text">Наш канал о подарках</div>
+    <a href="https://t.me/tggiftsnews" target="_blank" class="telegram-button">
+        <img src="tg-logo.png" alt="Telegram Logo">
+        <div class="telegram-text">Telegram</div>
+    </a>
 
     <div class="overlay" id="overlay">
         <div class="notification">
