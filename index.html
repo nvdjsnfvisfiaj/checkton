@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Check TON 📈</title>
+  <link rel="icon" href="logo.png" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      background: #111;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    .header {
+      width: 100%;
+      background: #111;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.01);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 0;
+    }
+    .nav {
+      display: flex;
+      gap: 56px;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 0 0 0;
+    }
+    .nav-link {
+      font-size: 18px;
+      color: #8d97a5;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+      cursor: pointer;
+      padding: 0 8px;
+    }
+    .nav-item.active .nav-link {
+      color: #fff;
+    }
+    .nav-indicator {
+      margin-top: 7px;
+      width: 80px;
+      height: 4px;
+      background: #4bb2ff;
+      border-radius: 2px 2px 0 0;
+      opacity: 1;
+      transition: width 0.2s, opacity 0.2s;
+    }
+    .nav-item:not(.active) .nav-indicator {
+      opacity: 0;
+      width: 0;
+    }
+    .header-divider {
+      width: 100%;
+      height: 2px;
+      background: rgba(140, 150, 160, 0.65);
+      margin-top: 18px;
+      border: none;
+    }
+    .ton-title, .chart-title, .stars-title, .gifts-dev-message,
+    .main-content, .chart-container, .stars-block-container {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s cubic-bezier(.4,0,.2,1), transform 0.6s cubic-bezier(.4,0,.2,1);
+      will-change: opacity, transform;
+      pointer-events: none;
+    }
+    .fade-in {
+      opacity: 1 !important;
+      transform: none !important;
+      pointer-events: auto;
+    }
+    .ton-title {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 12px;
+      font-size: 2rem;
+      font-weight: bold;
+      color: #4bb2ff;
+      letter-spacing: 1px;
+      text-align: center;
+    }
+    .chart-title {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 26px;
+      font-size: 2rem;
+      font-weight: bold;
+      color: #4bb2ff;
+      letter-spacing: 1px;
+      text-align: center;
+    }
+    .ton-block-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 32px;
+      margin-bottom: 0;
+    }
+    .ton-block {
+      background: #191b1f;
+      border: 2px solid #4bb2ff;
+      border-radius: 20px;
+      padding: 32px 32px 24px 32px;
+      min-width: 330px;
+      box-shadow: 0 6px 24px 0 rgba(75,178,255,0.05);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    .field-label {
+      color: #8d97a5;
+      font-size: 15px;
+      margin-bottom: 6px;
+      margin-top: 0;
+      width: 100%;
+      text-align: left;
+    }
+    .input-ton,
+    .input-usd {
+      width: 180px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1.5px solid #4bb2ff;
+      background: #22242a;
+      color: #fff;
+      font-size: 1.3rem;
+      font-weight: 700;
+      text-align: center;
+      outline: none;
+      margin-bottom: 10px;
+      margin-top: 0;
+      transition: border-color 0.2s;
+      -moz-appearance: textfield;
+    }
+    .input-ton::-webkit-outer-spin-button,
+    .input-ton::-webkit-inner-spin-button,
+    .input-usd::-webkit-outer-spin-button,
+    .input-usd::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    .input-ton[type=number],
+    .input-usd[type=number] {
+      -moz-appearance: textfield;
+    }
+    .input-ton:focus,
+    .input-usd:focus {
+      border-color: #62c3ff;
+    }
+    .input-usd {
+      margin-top: 0;
+      margin-bottom: 0;
+      background: #23242a;
+      border-color: #314b6e;
+      font-size: 1.23rem;
+    }
+    .field-group {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .chart-container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 18px;
+      margin-bottom: 0;
+    }
+    .chart-area {
+      background: #191b1f;
+      border: 2px solid #4bb2ff;
+      border-radius: 20px;
+      padding: 18px 18px 8px 18px;
+      min-width: 350px;
+      width: 100%;
+      max-width: 540px;
+      box-shadow: 0 6px 24px 0 rgba(75,178,255,0.05);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    canvas {
+      background: #23242a;
+      border-radius: 12px;
+      width: 100% !important;
+      max-width: 500px;
+      height: 260px !important;
+      display: block;
+      margin: 0 auto;
+    }
+    .stars-title {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 8px;
+      font-size: 2rem;
+      font-weight: bold;
+      color: #4bb2ff;
+      letter-spacing: 1px;
+      text-align: center;
+    }
+    .stars-block-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 22px;
+      margin-bottom: 0;
+      width: 100%;
+    }
+    .stars-block {
+      background: #191b1f;
+      border: 2px solid #4bb2ff;
+      border-radius: 24px;
+      padding: 32px 32px 24px 32px;
+      min-width: 350px;
+      max-width: 420px;
+      box-shadow: 0 8px 28px 0 rgba(75,178,255,0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    .stars-field-label {
+      color: #8d97a5;
+      font-size: 17px;
+      margin-bottom: 7px;
+      margin-top: 0;
+      width: 100%;
+      text-align: left;
+    }
+    .input-stars,
+    .input-ton-in-stars {
+      width: 200px;
+      padding: 12px 14px;
+      border-radius: 11px;
+      border: 1.5px solid #4bb2ff;
+      background: #22242a;
+      color: #fff;
+      font-size: 1.22rem;
+      font-weight: 700;
+      text-align: center;
+      outline: none;
+      margin-bottom: 12px;
+      margin-top: 0;
+      transition: border-color 0.2s;
+      -moz-appearance: textfield;
+    }
+    .input-stars::-webkit-outer-spin-button,
+    .input-stars::-webkit-inner-spin-button,
+    .input-ton-in-stars::-webkit-outer-spin-button,
+    .input-ton-in-stars::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    .input-stars[type=number],
+    .input-ton-in-stars[type=number] {
+      -moz-appearance: textfield;
+    }
+    .input-stars:focus,
+    .input-ton-in-stars:focus {
+      border-color: #62c3ff;
+    }
+    .input-ton-in-stars {
+      margin-top: 0;
+      margin-bottom: 0;
+      background: #23242a;
+      border-color: #314b6e;
+      font-size: 1.13rem;
+    }
+    .stars-field-group {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .gifts-dev-message {
+      display: none;
+      margin-top: 30px;
+      text-align: center;
+      color: #8d97a5;
+      font-size: 1.11rem;
+      line-height: 1.6;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    @media (max-width: 600px) {
+      .chart-area {
+        min-width: 240px;
+        max-width: 340px;
+        padding: 10px 6px 4px 6px;
+      }
+      canvas {
+        max-width: 300px !important;
+        height: 180px !important;
+      }
+      .stars-block {
+        min-width: 180px;
+        max-width: 98vw;
+        padding: 14px 2vw 10px 2vw;
+      }
+      .input-stars, .input-ton-in-stars {
+        width: 100px;
+        font-size: 1rem;
+      }
+      .stars-title {
+        font-size: 1.2rem;
+      }
+      .gifts-dev-message {
+        font-size: 1rem;
+        padding-left: 7px;
+        padding-right: 7px;
+      }
+    }
+    .main-content, .chart-title, .chart-container { display: none; }
+    .stars-title, .stars-block-container { display: none; }
+    body.toncoin-active .main-content,
+    body.toncoin-active .chart-title,
+    body.toncoin-active .chart-container { display: block; }
+    body.stars-active .stars-title,
+    body.stars-active .stars-block-container { display: flex; flex-direction: column; }
+    body.gifts-active .gifts-dev-message { display: block; }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <header class="header">
+    <nav>
+      <ul class="nav">
+        <li class="nav-item" id="nav-toncoin">
+          <span class="nav-link" onclick="switchSection('toncoin')">Toncoin</span>
+          <div class="nav-indicator"></div>
+        </li>
+        <li class="nav-item" id="nav-stars">
+          <span class="nav-link" onclick="switchSection('stars')">Звёзды</span>
+          <div class="nav-indicator"></div>
+        </li>
+        <li class="nav-item" id="nav-gifts">
+          <span class="nav-link" onclick="switchSection('gifts')">Подарки</span>
+          <div class="nav-indicator"></div>
+        </li>
+      </ul>
+    </nav>
+    <div class="header-divider"></div>
+  </header>
+
+  <!-- TONCOIN SECTION -->
+  <div class="main-content">
+    <div class="ton-title">Курс TON</div>
+    <div class="ton-block-container">
+      <div class="ton-block">
+        <div class="field-group">
+          <label class="field-label" for="ton-input">TON</label>
+          <input class="input-ton" id="ton-input" type="number" min="0" step="any" value="1" autocomplete="off" />
+        </div>
+        <div class="field-group" style="margin-top:10px;">
+          <label class="field-label" for="usd-input">Доллары</label>
+          <input class="input-usd" id="usd-input" type="number" min="0" step="any" value="…" autocomplete="off" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="chart-title">График курса</div>
+  <div class="chart-container">
+    <div class="chart-area">
+      <canvas id="tonChart"></canvas>
+    </div>
+  </div>
+
+  <!-- STARS SECTION -->
+  <div class="stars-title">Звёзды (STARS)</div>
+  <div class="stars-block-container">
+    <div class="stars-block">
+      <div class="stars-field-group">
+        <label class="stars-field-label" for="stars-input">Звёзды</label>
+        <input class="input-stars" id="stars-input" type="number" min="0" max="9999999" step="1" maxlength="7" autocomplete="off" value="50" />
+      </div>
+      <div class="stars-field-group" style="margin-top:12px;">
+        <label class="stars-field-label" for="ton-in-stars-input">TON</label>
+        <input class="input-ton-in-stars" id="ton-in-stars-input" type="number" min="0" max="9999999" step="any" maxlength="7" autocomplete="off" value="…" />
+      </div>
+    </div>
+  </div>
+
+  <!-- GIFTS SECTION -->
+  <div class="gifts-dev-message">
+    Данная страница в разработке.<br>
+    Мы постараемся сделать ее качественной и как можно быстрее!
+  </div>
+
+  <script>
+    // --- SECTION MEMORY ---
+    // Проверяем localStorage для сохранения раздела
+    function getSavedSection() {
+      try {
+        return localStorage.getItem('selectedSection');
+      } catch (e) { return null; }
+    }
+    function setSavedSection(section) {
+      try {
+        localStorage.setItem('selectedSection', section);
+      } catch (e) {}
+    }
+
+    // АНИМАЦИЯ ПОЯВЛЕНИЯ элементов
+    function fadeInElementsForSection(section) {
+      // Сначала убираем fade-in у всех
+      document.querySelectorAll('.ton-title, .main-content, .chart-title, .chart-container, .stars-title, .stars-block-container, .gifts-dev-message').forEach(el=>{
+        el.classList.remove('fade-in');
+      });
+      // Ждем скрытия (иначе transition не срабатывает)
+      setTimeout(() => {
+        let elements = [];
+        if (section === "toncoin") {
+          elements = [
+            document.querySelector('.ton-title'),
+            document.querySelector('.main-content'),
+            document.querySelector('.chart-title'),
+            document.querySelector('.chart-container')
+          ];
+        } else if (section === "stars") {
+          elements = [
+            document.querySelector('.stars-title'),
+            document.querySelector('.stars-block-container')
+          ];
+        } else if (section === "gifts") {
+          elements = [
+            document.querySelector('.gifts-dev-message')
+          ];
+        }
+        // Плавно поочередно
+        elements.forEach((el, i) => {
+          if (el) setTimeout(() => el.classList.add('fade-in'), 90 * i);
+        });
+      }, 30);
+    }
+
+    // Переключение разделов
+    function switchSection(section) {
+      setSavedSection(section);
+      const body = document.body;
+      body.classList.remove('toncoin-active', 'stars-active', 'gifts-active');
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+      if (section === 'toncoin') {
+        body.classList.add('toncoin-active');
+        document.getElementById('nav-toncoin').classList.add('active');
+      } else if (section === 'stars') {
+        body.classList.add('stars-active');
+        document.getElementById('nav-stars').classList.add('active');
+      } else if (section === 'gifts') {
+        body.classList.add('gifts-active');
+        document.getElementById('nav-gifts').classList.add('active');
+      }
+      fadeInElementsForSection(section);
+    }
+
+    // При загрузке страницы открываем нужный раздел и анимируем
+    (function() {
+      const saved = getSavedSection();
+      const section = saved === "stars" || saved === "gifts" ? saved : "toncoin";
+      switchSection(section);
+      setTimeout(() => fadeInElementsForSection(section), 30);
+    })();
+
+    // TONCOIN SECTION: Курс TON <-> USD
+    let TON_TO_USD = 0;
+    let updateInterval = null;
+    let isTonEditing = false;
+    let isUsdEditing = false;
+
+    const tonInput = document.getElementById('ton-input');
+    const usdInput = document.getElementById('usd-input');
+
+    function tonToUsd(ton) {
+      return (ton * TON_TO_USD).toFixed(2);
+    }
+    function usdToTon(usd) {
+      if (TON_TO_USD === 0) return '';
+      return (usd / TON_TO_USD).toFixed(2);
+    }
+
+    function updateFromTonInput() {
+      if (isUsdEditing) return;
+      isTonEditing = true;
+      const tonValue = parseFloat(tonInput.value.replace(',', '.')) || 0;
+      usdInput.value = tonToUsd(tonValue);
+      isTonEditing = false;
+    }
+    function updateFromUsdInput() {
+      if (isTonEditing) return;
+      isUsdEditing = true;
+      const usdValue = parseFloat(usdInput.value.replace(',', '.')) || 0;
+      tonInput.value = usdToTon(usdValue);
+      isUsdEditing = false;
+    }
+
+    if (tonInput && usdInput) {
+      tonInput.addEventListener('input', updateFromTonInput);
+      tonInput.addEventListener('wheel', function(e) { this.blur(); });
+      usdInput.addEventListener('input', updateFromUsdInput);
+    }
+
+    function updateAllFields() {
+      updateFromTonInput();
+    }
+
+    async function fetchTonToUsd() {
+      try {
+        const response = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=TONUSDT');
+        const data = await response.json();
+        const newTON_TO_USD = parseFloat(data.price);
+        if (!isNaN(newTON_TO_USD) && newTON_TO_USD !== TON_TO_USD) {
+          TON_TO_USD = newTON_TO_USD;
+          updateAllFields();
+        }
+      } catch (e) {}
+    }
+
+    (async function init() {
+      try {
+        const response = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=TONUSDT');
+        const data = await response.json();
+        TON_TO_USD = parseFloat(data.price);
+        updateAllFields();
+      } catch (e) {
+        if (usdInput) usdInput.value = "—";
+      }
+      updateInterval = setInterval(fetchTonToUsd, 5000);
+    })();
+
+    // График курса TON/USD за последние 24 часа
+    const ctx = document.getElementById('tonChart').getContext('2d');
+    let tonChart = null;
+
+    async function fetchTon24hChart() {
+      try {
+        const res = await fetch('https://api.binance.com/api/v3/klines?symbol=TONUSDT&interval=15m&limit=96');
+        const data = await res.json();
+        const labels = data.map(item => {
+          const d = new Date(item[0]);
+          return `${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}`;
+        });
+        const closes = data.map(item => parseFloat(item[4]));
+
+        if (!tonChart) {
+          tonChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: labels,
+              datasets: [{
+                label: 'TON/USD',
+                data: closes,
+                borderColor: '#4bb2ff',
+                backgroundColor: 'rgba(75,178,255,0.08)',
+                borderWidth: 3,
+                pointRadius: 0,
+                tension: 0.28,
+                fill: true,
+              }]
+            },
+            options: {
+              responsive: true,
+              plugins: {
+                legend: { display: false },
+                tooltip: {
+                  mode: 'index',
+                  intersect: false,
+                  callbacks: {
+                    label: function(context) {
+                      return ` ${context.parsed.y} $`;
+                    }
+                  }
+                }
+              },
+              interaction: { intersect: false, mode: 'index' },
+              scales: {
+                x: {
+                  grid: { color: '#23242a', display: false },
+                  ticks: { color: '#8d97a5', maxTicksLimit: 8, font: {weight: "bold"}},
+                },
+                y: {
+                  grid: { color: 'rgba(77,178,255,0.12)' },
+                  ticks: { color: '#8d97a5', callback: v=>v.toFixed(2)+' $' }
+                }
+              }
+            }
+          });
+        } else {
+          tonChart.data.labels = labels;
+          tonChart.data.datasets[0].data = closes;
+          tonChart.update();
+        }
+      } catch (e) {}
+    }
+
+    fetchTon24hChart();
+    setInterval(fetchTon24hChart, 60 * 1000);
+
+    // STARS SECTION: Курс Звёзды <-> TON с учетом курса к доллару
+    const STARS_TO_USD = 0.015; // 1 звезда = 0.015$
+    let isStarsEditing = false;
+    let isTonStarsEditing = false;
+
+    const starsInput = document.getElementById('stars-input');
+    const tonInStarsInput = document.getElementById('ton-in-stars-input');
+
+    function starsToTon(stars) {
+      if (!TON_TO_USD) return '';
+      const usd = stars * STARS_TO_USD;
+      const ton = usd / TON_TO_USD;
+      return ton.toFixed(4);
+    }
+    function tonToStars(ton) {
+      if (!TON_TO_USD || !STARS_TO_USD) return '';
+      const usd = ton * TON_TO_USD;
+      const stars = usd / STARS_TO_USD;
+      return Math.floor(stars); // Только целые звезды
+    }
+
+    function enforceMaxLength(input) {
+      if (input.value.length > 7) {
+        input.value = input.value.slice(0, 7);
+      }
+      if (parseFloat(input.value) > 9999999) {
+        input.value = "9999999";
+      }
+    }
+
+    // Только целые числа для звезд
+    starsInput.addEventListener('input', function() {
+      let v = starsInput.value.replace(/[^0-9]/g, '');
+      if (v.length > 7) v = v.slice(0, 7);
+      starsInput.value = v.replace(/^0+/, '') || "0";
+      updateFromStarsInput();
+    });
+
+    function updateFromStarsInput() {
+      if (isTonStarsEditing) return;
+      isStarsEditing = true;
+      enforceMaxLength(starsInput);
+      const starsVal = parseInt(starsInput.value.replace(',', '.')) || 0;
+      tonInStarsInput.value = starsToTon(starsVal);
+      isStarsEditing = false;
+    }
+    function updateFromTonStarsInput() {
+      if (isStarsEditing) return;
+      isTonStarsEditing = true;
+      enforceMaxLength(tonInStarsInput);
+      const tonVal = parseFloat(tonInStarsInput.value.replace(',', '.')) || 0;
+      starsInput.value = tonToStars(tonVal);
+      isTonStarsEditing = false;
+    }
+
+    tonInStarsInput.addEventListener('input', updateFromTonStarsInput);
+
+    starsInput.addEventListener('paste', function(e) {
+      setTimeout(()=> {
+        let v = starsInput.value.replace(/[^0-9]/g, '');
+        if (v.length > 7) v = v.slice(0, 7);
+        starsInput.value = v.replace(/^0+/, '') || "0";
+        updateFromStarsInput();
+      }, 0);
+    });
+    tonInStarsInput.addEventListener('paste', function(e) {
+      setTimeout(()=> enforceMaxLength(tonInStarsInput), 0);
+    });
+
+    function updateStarsToTonOnTonChange() {
+      if (document.body.classList.contains('stars-active')) {
+        updateFromStarsInput();
+      }
+    }
+    let prevTON_TO_USD = 0;
+    setInterval(() => {
+      if (TON_TO_USD !== prevTON_TO_USD) {
+        prevTON_TO_USD = TON_TO_USD;
+        updateStarsToTonOnTonChange();
+      }
+    }, 500);
+
+    document.getElementById('nav-stars').addEventListener('click', updateStarsToTonOnTonChange);
+
+    // Первоначальный расчет
+    updateFromStarsInput();
+  </script>
+</body>
+</html>
