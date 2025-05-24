@@ -70,7 +70,7 @@
       border: none;
     }
     .ton-title, .chart-title, .stars-title, .gifts-dev-message,
-    .main-content, .chart-container, .stars-block-container, .stars-info {
+    .main-content, .chart-container, .stars-block-container, .stars-info, .toncoin-info {
       opacity: 0;
       transform: translateY(20px);
       transition: opacity 0.6s cubic-bezier(.4,0,.2,1), transform 0.6s cubic-bezier(.4,0,.2,1);
@@ -207,6 +207,31 @@
       display: block;
       margin: 0 auto;
     }
+    .toncoin-info {
+      color: #8d97a5;
+      font-size: 1.08rem;
+      margin-top: 26px;
+      margin-bottom: 0;
+      max-width: 460px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+      line-height: 1.6;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      word-break: keep-all;
+    }
+    .toncoin-info-text {
+      text-align: left;
+      width: 100%;
+      word-break: keep-all;
+    }
+    .toncoin-info a {
+      color: #4bb2ff;
+      text-decoration: underline;
+      word-break: break-all;
+    }
     .stars-title {
       display: flex;
       justify-content: center;
@@ -260,10 +285,12 @@
       display: none;
       justify-content: center;
       align-items: center;
+      word-break: keep-all;
     }
     .stars-info-text {
       text-align: left;
       width: 100%;
+      word-break: keep-all;
     }
     .stars-info a {
       color: #4bb2ff;
@@ -348,7 +375,8 @@
       .stars-title {
         font-size: 1.2rem;
       }
-      .stars-info {
+      .stars-info,
+      .toncoin-info {
         font-size: 0.96rem;
         max-width: 97vw;
         margin-top: 16px;
@@ -361,9 +389,11 @@
     }
     .main-content, .chart-title, .chart-container { display: none; }
     .stars-title, .stars-block-container, .stars-info { display: none; }
+    .toncoin-info { display: none; }
     body.toncoin-active .main-content,
     body.toncoin-active .chart-title,
-    body.toncoin-active .chart-container { display: block; }
+    body.toncoin-active .chart-container,
+    body.toncoin-active .toncoin-info { display: flex; flex-direction: column; }
     body.stars-active .stars-title,
     body.stars-active .stars-block-container,
     body.stars-active .stars-info { display: flex; flex-direction: column; }
@@ -414,6 +444,11 @@
       <canvas id="tonChart"></canvas>
     </div>
   </div>
+  <div class="toncoin-info">
+    <div class="toncoin-info-text">
+      Тонкоин (Toncoin) — это криптовалюта блокчейна TON (The Open Network), изначально разработанного командой <a href="https://telegram.org" target="_blank">Telegram</a>. Сейчас проект развивается независимо от Telegram, но интегрирован с его сервисами.
+    </div>
+  </div>
 
   <!-- STARS SECTION -->
   <div class="stars-title">Звёзды (STARS)</div>
@@ -459,7 +494,7 @@
     // АНИМАЦИЯ ПОЯВЛЕНИЯ элементов
     function fadeInElementsForSection(section) {
       // Сначала убираем fade-in у всех
-      document.querySelectorAll('.ton-title, .main-content, .chart-title, .chart-container, .stars-title, .stars-block-container, .gifts-dev-message, .stars-info').forEach(el=>{
+      document.querySelectorAll('.ton-title, .main-content, .chart-title, .chart-container, .stars-title, .stars-block-container, .gifts-dev-message, .stars-info, .toncoin-info').forEach(el=>{
         el.classList.remove('fade-in');
       });
       // Ждем скрытия (иначе transition не срабатывает)
@@ -470,7 +505,8 @@
             document.querySelector('.ton-title'),
             document.querySelector('.main-content'),
             document.querySelector('.chart-title'),
-            document.querySelector('.chart-container')
+            document.querySelector('.chart-container'),
+            document.querySelector('.toncoin-info')
           ];
         } else if (section === "stars") {
           elements = [
