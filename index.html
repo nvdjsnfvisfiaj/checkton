@@ -23,10 +23,11 @@
     }
     .nav {
       display: flex;
-      gap: 56px;
+      gap: 32px;
       padding: 0;
       margin: 0;
       list-style: none;
+      align-items: center;
     }
     .nav-item {
       display: flex;
@@ -45,6 +46,9 @@
       cursor: pointer;
       padding: 0 8px;
       text-shadow: 0 0.5px 0 #fff2, 0 1px 1px #0002;
+      display: flex;
+      align-items: center;
+      height: 26px;
     }
     .nav-item.active .nav-link {
       color: #fff;
@@ -61,6 +65,50 @@
     .nav-item:not(.active) .nav-indicator {
       opacity: 0;
       width: 0;
+    }
+    .nav-lang {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      height: 34px;
+      margin-left: 0;
+      margin-top: 12px;
+      margin-bottom: 0;
+      padding: 0 12px;
+      border: 2px solid #4bb2ff;
+      border-radius: 13px;
+      background: #171b23;
+      box-sizing: border-box;
+      transition: border-color 0.18s, background 0.18s;
+      line-height: 1;
+    }
+    .nav-lang:hover {
+      border-color: #62c3ff;
+      background: #1c2330;
+    }
+    .nav-lang-text {
+      font-size: 18px;
+      color: #8d97a5;
+      font-weight: 700;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+      letter-spacing: -0.01em;
+      margin-right: 7px;
+      margin-left: 2px;
+      text-shadow: 0 0.5px 0 #fff2, 0 1px 1px #0002;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      height: 26px;
+      line-height: 1;
+      padding: 0;
+    }
+    .nav-lang-img {
+      width: 22px;
+      height: 22px;
+      object-fit: contain;
+      display: block;
+      margin: 0;
+      padding: 0;
     }
     .header-divider {
       width: 100%;
@@ -386,6 +434,24 @@
         padding-left: 7px;
         padding-right: 7px;
       }
+      .nav-lang {
+        height: 28px;
+        border-radius: 10px;
+        padding: 0 7px;
+        margin-top: 8px;
+      }
+      .nav-lang-text {
+        font-size: 16px;
+        margin-right: 5px;
+        height: 20px;
+      }
+      .nav-lang-img {
+        width: 16px;
+        height: 16px;
+      }
+      .nav {
+        gap: 16px;
+      }
     }
     .main-content, .chart-title, .chart-container { display: none; }
     .stars-title, .stars-block-container, .stars-info { display: none; }
@@ -406,16 +472,20 @@
     <nav>
       <ul class="nav">
         <li class="nav-item" id="nav-toncoin">
-          <span class="nav-link" onclick="switchSection('toncoin')">Toncoin</span>
+          <span class="nav-link" onclick="switchSection('toncoin')" data-i18n="nav_toncoin">Toncoin</span>
           <div class="nav-indicator"></div>
         </li>
         <li class="nav-item" id="nav-stars">
-          <span class="nav-link" onclick="switchSection('stars')">Звёзды</span>
+          <span class="nav-link" onclick="switchSection('stars')" data-i18n="nav_stars">Звёзды</span>
           <div class="nav-indicator"></div>
         </li>
         <li class="nav-item" id="nav-gifts">
-          <span class="nav-link" onclick="switchSection('gifts')">Подарки</span>
+          <span class="nav-link" onclick="switchSection('gifts')" data-i18n="nav_gifts">Подарки</span>
           <div class="nav-indicator"></div>
+        </li>
+        <li class="nav-lang" id="lang-switch">
+          <span class="nav-lang-text" id="lang-text">RU</span>
+          <img class="nav-lang-img" src="globus.png" alt="Globus">
         </li>
       </ul>
     </nav>
@@ -424,62 +494,138 @@
 
   <!-- TONCOIN SECTION -->
   <div class="main-content">
-    <div class="ton-title">Курс TON</div>
+    <div class="ton-title" data-i18n="ton_title">Курс TON</div>
     <div class="ton-block-container">
       <div class="ton-block">
         <div class="field-group">
-          <label class="field-label" for="ton-input">TON</label>
+          <label class="field-label" for="ton-input" data-i18n="label_ton">TON</label>
           <input class="input-ton" id="ton-input" type="number" min="0" step="any" value="1" autocomplete="off" />
         </div>
         <div class="field-group" style="margin-top:10px;">
-          <label class="field-label" for="usd-input">Доллары</label>
+          <label class="field-label" for="usd-input" data-i18n="label_usd">Доллары</label>
           <input class="input-usd" id="usd-input" type="number" min="0" step="any" value="…" autocomplete="off" />
         </div>
       </div>
     </div>
   </div>
-  <div class="chart-title">График курса</div>
+  <div class="chart-title" data-i18n="chart_title">График курса</div>
   <div class="chart-container">
     <div class="chart-area">
       <canvas id="tonChart"></canvas>
     </div>
   </div>
   <div class="toncoin-info">
-    <div class="toncoin-info-text">
+    <div class="toncoin-info-text" data-i18n="toncoin_info">
       Тонкоин (Toncoin) — это криптовалюта блокчейна TON (The Open Network), изначально разработанного командой <a href="https://telegram.org" target="_blank">Telegram</a>. Сейчас проект развивается независимо от Telegram, но интегрирован с его сервисами.
     </div>
   </div>
 
   <!-- STARS SECTION -->
-  <div class="stars-title">Звёзды (STARS)</div>
+  <div class="stars-title" data-i18n="stars_title">Звёзды (STARS)</div>
   <div class="stars-block-container">
     <div class="stars-block">
       <div class="stars-field-group">
-        <label class="stars-field-label" for="stars-input">Звёзды</label>
+        <label class="stars-field-label" for="stars-input" data-i18n="label_stars">Звёзды</label>
         <input class="input-stars" id="stars-input" type="number" min="0" max="9999999" step="1" maxlength="7" autocomplete="off" value="50" />
       </div>
       <div class="stars-field-group" style="margin-top:12px;">
-        <label class="stars-field-label" for="ton-in-stars-input">TON</label>
+        <label class="stars-field-label" for="ton-in-stars-input" data-i18n="label_ton_in_stars">TON</label>
         <input class="input-ton-in-stars" id="ton-in-stars-input" type="number" min="0" max="9999999" step="any" maxlength="7" autocomplete="off" value="…" />
       </div>
     </div>
   </div>
   <div class="stars-info">
-    <div class="stars-info-text">
+    <div class="stars-info-text" data-i18n="stars_info">
       Звёзды (stars) — цифровая валюта в Telegram для покупки подарков и оплаты товаров в Telegram ботах.<br>
       Приобрести звёзды можно на <a href="https://fragment.com" target="_blank">fragment.com</a> или прямо в <a href="tg://stars" target="_blank">Telegram</a>
     </div>
   </div>
 
   <!-- GIFTS SECTION -->
-  <div class="gifts-dev-message">
+  <div class="gifts-dev-message" data-i18n="gifts_dev_message">
     Данная страница в разработке.<br>
     Мы постараемся сделать ее качественной и как можно быстрее!
   </div>
 
+  <!-- JS -->
   <script>
+    // ---------- Языковые данные ----------
+    const I18N = {
+      ru: {
+        nav_toncoin: 'Toncoin',
+        nav_stars: 'Звёзды',
+        nav_gifts: 'Подарки',
+        ton_title: 'Курс TON',
+        label_ton: 'TON',
+        label_usd: 'Доллары',
+        chart_title: 'График курса',
+        toncoin_info: `Тонкоин (Toncoin) — это криптовалюта блокчейна TON (The Open Network), изначально разработанного командой <a href="https://telegram.org" target="_blank">Telegram</a>. Сейчас проект развивается независимо от Telegram, но интегрирован с его сервисами.`,
+        stars_title: 'Звёзды (STARS)',
+        label_stars: 'Звёзды',
+        label_ton_in_stars: 'TON',
+        stars_info: `Звёзды (stars) — цифровая валюта в Telegram для покупки подарков и оплаты товаров в Telegram ботах.<br>
+      Приобрести звёзды можно на <a href="https://fragment.com" target="_blank">fragment.com</a> или прямо в <a href="tg://stars" target="_blank">Telegram</a>`,
+        gifts_dev_message: `Данная страница в разработке.<br>
+      Мы постараемся сделать ее качественной и как можно быстрее!`
+      },
+      en: {
+        nav_toncoin: 'Toncoin',
+        nav_stars: 'Stars',
+        nav_gifts: 'Gifts',
+        ton_title: 'TON Rate',
+        label_ton: 'TON',
+        label_usd: 'USD',
+        chart_title: 'Price Chart',
+        toncoin_info: `Toncoin is the cryptocurrency of the TON (The Open Network) blockchain, originally developed by the <a href="https://telegram.org" target="_blank">Telegram</a> team. Now the project evolves independently from Telegram, but is integrated with its services.`,
+        stars_title: 'Stars (STARS)',
+        label_stars: 'Stars',
+        label_ton_in_stars: 'TON',
+        stars_info: `Stars are a digital currency in Telegram for buying gifts and paying for goods in Telegram bots.<br>
+      You can buy stars at <a href="https://fragment.com" target="_blank">fragment.com</a> or directly in <a href="tg://stars" target="_blank">Telegram</a>`,
+        gifts_dev_message: `This page is under development.<br>
+      We will try to make it high-quality and as soon as possible!`
+      }
+    };
+
+    function getSavedLang() {
+      try {
+        return localStorage.getItem('selectedLang') || 'ru';
+      } catch (e) { return 'ru'; }
+    }
+    function setSavedLang(lang) {
+      try {
+        localStorage.setItem('selectedLang', lang);
+      } catch (e) {}
+    }
+
+    let currentLang = getSavedLang();
+
+    function applyLang(lang) {
+      currentLang = lang;
+      setSavedLang(lang);
+
+      // Меняем текст на кнопке языка
+      const langText = document.getElementById('lang-text');
+      langText.textContent = lang === 'ru' ? 'RU' : 'EN';
+
+      // Меняем все по data-i18n
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        let translation = I18N[lang][key];
+        if (!translation) return;
+        el.innerHTML = translation;
+      });
+    }
+
+    document.getElementById('lang-switch').addEventListener('click', function() {
+      const nextLang = currentLang === 'ru' ? 'en' : 'ru';
+      applyLang(nextLang);
+    });
+
+    // Применяем язык при старте
+    applyLang(currentLang);
+
     // --- SECTION MEMORY ---
-    // Проверяем localStorage для сохранения раздела
     function getSavedSection() {
       try {
         return localStorage.getItem('selectedSection');
@@ -491,13 +637,10 @@
       } catch (e) {}
     }
 
-    // АНИМАЦИЯ ПОЯВЛЕНИЯ элементов
     function fadeInElementsForSection(section) {
-      // Сначала убираем fade-in у всех
       document.querySelectorAll('.ton-title, .main-content, .chart-title, .chart-container, .stars-title, .stars-block-container, .gifts-dev-message, .stars-info, .toncoin-info').forEach(el=>{
         el.classList.remove('fade-in');
       });
-      // Ждем скрытия (иначе transition не срабатывает)
       setTimeout(() => {
         let elements = [];
         if (section === "toncoin") {
@@ -519,14 +662,12 @@
             document.querySelector('.gifts-dev-message')
           ];
         }
-        // Плавно поочередно
         elements.forEach((el, i) => {
           if (el) setTimeout(() => el.classList.add('fade-in'), 90 * i);
         });
       }, 30);
     }
 
-    // Переключение разделов
     function switchSection(section) {
       setSavedSection(section);
       const body = document.body;
@@ -545,7 +686,6 @@
       fadeInElementsForSection(section);
     }
 
-    // При загрузке страницы открываем нужный раздел и анимируем
     (function() {
       const saved = getSavedSection();
       const section = saved === "stars" || saved === "gifts" ? saved : "toncoin";
@@ -553,7 +693,7 @@
       setTimeout(() => fadeInElementsForSection(section), 30);
     })();
 
-    // TONCOIN SECTION: Курс TON <-> USD
+    // TONCOIN SECTION
     let TON_TO_USD = 0;
     let updateInterval = null;
     let isTonEditing = false;
@@ -619,7 +759,7 @@
       updateInterval = setInterval(fetchTonToUsd, 5000);
     })();
 
-    // График курса TON/USD за последние 24 часа
+    // TON Chart
     const ctx = document.getElementById('tonChart').getContext('2d');
     let tonChart = null;
 
@@ -687,8 +827,8 @@
     fetchTon24hChart();
     setInterval(fetchTon24hChart, 60 * 1000);
 
-    // STARS SECTION: Курс Звёзды <-> TON с учетом курса к доллару
-    const STARS_TO_USD = 0.015; // 1 звезда = 0.015$
+    // STARS SECTION
+    const STARS_TO_USD = 0.015;
     let isStarsEditing = false;
     let isTonStarsEditing = false;
 
@@ -705,7 +845,7 @@
       if (!TON_TO_USD || !STARS_TO_USD) return '';
       const usd = ton * TON_TO_USD;
       const stars = usd / STARS_TO_USD;
-      return Math.floor(stars); // Только целые звезды
+      return Math.floor(stars);
     }
 
     function enforceMaxLength(input) {
@@ -717,7 +857,6 @@
       }
     }
 
-    // Только целые числа для звезд
     starsInput.addEventListener('input', function() {
       let v = starsInput.value.replace(/[^0-9]/g, '');
       if (v.length > 7) v = v.slice(0, 7);
@@ -771,7 +910,6 @@
 
     document.getElementById('nav-stars').addEventListener('click', updateStarsToTonOnTonChange);
 
-    // Первоначальный расчет
     updateFromStarsInput();
   </script>
 </body>
